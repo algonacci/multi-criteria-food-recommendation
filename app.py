@@ -20,6 +20,7 @@ df_normalized[features] = scaler.fit_transform(df[features])
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    filtered_df = df_normalized
     if request.method == 'POST':
         max_calories = float(request.form.get('max_calories'))
         protein_preference = request.form.get('protein_preference')
@@ -35,8 +36,10 @@ def index():
             filtered_df = filtered_df[filtered_df['protein_g'] < 0.5]
         if food_category:
             filtered_df = filtered_df[filtered_df['category'] == food_category]
-    else:
-        filtered_df = df_normalized
+
+    # Check if the DataFrame is empty
+    if filtered_df.empty:
+        return "No recommendations found based on the given criteria."
 
     # Calculate similarity and make recommendations
     ideal_profile = [0 for _ in range(len(features))]
