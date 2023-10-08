@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Diet Menu Recommendation</title>
+</head>
+
+<body>
+
+    <h1>Welcome to Diet Menu Recommendation</h1>
+
+    <form method="post">
+        <label for="max_calories">Max Calories:</label>
+        <input type="text" id="max_calories" name="max_calories"><br><br>
+
+        <label for="protein_preference">Protein Preference:</label>
+        <select id="protein_preference" name="protein_preference">
+            <option value="high">High</option>
+            <option value="low">Low</option>
+        </select><br><br>
+
+        <label for="food_category">Food Category:</label>
+        <select id="food_category" name="food_category">
+            <option value="" selected disabled>Select Category</option>
+            {% for category in ['alcohol', 'babyfood', 'beverages', 'cocoa', 'eggs', 'fermented_dairy_products',
+            'fish_seafood', 'fruits', 'instant_products', 'nuts', 'oils', 'pasta_rice', 'prepared_meals', 'pulses',
+            'sauces', 'snacks', 'soups', 'sweets', 'vegetables', 'wheat_products', 'yeast', 'yogurt'] %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Get Recommendations">
+    </form>
+
+    <h2>Recommended Items:</h2>
+    <ul>
+        {% for item in recommendations %}
+        <li>{{ item['short_desc'] }} (Similarity Score: {{ item['similarity_score'] }})</li>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>
